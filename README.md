@@ -28,8 +28,10 @@ sudo podman network create \
 Create a **Pod** with a **static IP** within the created network:
 
 ```sh
-sudo podman pod create \
-  --name immich_pod \
+sudo podman pod create --name immich_pod \
+  --add-host redis:127.0.0.1 \
+  --add-host postgres:127.0.0.1 \
+  --add-host machine_learning:127.0.0.1 \
   --network immich_network \
   --ip 192.168.18.177
 ```
@@ -93,6 +95,7 @@ sudo podman run -d --pod immich_pod --name immich_machine_learning \
   --env-file .env \
   ghcr.io/immich-app/immich-machine-learning:release
 ```
+You can change the `release`  to a specific version like "v1.130.3"
 
 ### 4.4 Immich Server
 ```sh
@@ -102,16 +105,18 @@ sudo podman run -d --pod immich_pod --name immich_server \
   --env-file .env \
   ghcr.io/immich-app/immich-server:release
 ```
+You can change the `release`  to a specific version like "v1.130.3"
 
 ---
 
-## 5. Configuring **/etc/hosts** Inside the Server Container
-Ensure proper service communication by adding the following entries:
+## ~~5. Configuring **/etc/hosts** Inside the Server Container~~
+~~Ensure proper service communication by adding the following entries:~~
 
+**Ignore this**
 ```sh
-sudo podman exec immich_server sh -c "echo '127.0.0.1 redis' >> /etc/hosts"
-sudo podman exec immich_server sh -c "echo '127.0.0.1 postgres' >> /etc/hosts"
-sudo podman exec immich_server sh -c "echo '127.0.0.1 machine_learning' >> /etc/hosts"
+#sudo podman exec immich_server sh -c "echo '127.0.0.1 redis' >> /etc/hosts"
+#sudo podman exec immich_server sh -c "echo '127.0.0.1 postgres' >> /etc/hosts"
+#sudo podman exec immich_server sh -c "echo '127.0.0.1 machine_learning' >> /etc/hosts"
 ```
 
 ---
@@ -122,7 +127,8 @@ sudo podman exec immich_server sh -c "echo '127.0.0.1 machine_learning' >> /etc/
 sudo podman exec immich_server env
 ```
 
-### 6.2 Check **/etc/hosts**
+### ~~6.2 Check **/etc/hosts**~~
+**Ignore this**
 ```sh
 sudo podman exec immich_server cat /etc/hosts
 ```
